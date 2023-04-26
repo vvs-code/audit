@@ -84,7 +84,7 @@ ENDHTML;
     if ($audit['datestart'] === $audit['dateend']) {
         $date = 'Дата аудита: '.format_date($audit['datestart']);
     } else {
-        $date = 'Даты аудита: '.format_date($audit['datestart']).' — '.format_date($audit['dateend']);
+        $date = 'Даты аудита: '.format_date_range($audit['datestart'], $audit['dateend']);
     }
 
     $categories = '';
