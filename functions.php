@@ -9,8 +9,8 @@
 
     $config = [
         'name' => 'audit',
-        'password' => '',
-        'user' => '',
+        'password' => 'root',
+        'user' => 'root',
         'host' => 'localhost'
     ];
 
