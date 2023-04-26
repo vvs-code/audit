@@ -1,28 +1,49 @@
 <?php
 
     require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
+    /** Импортируемые переменные */
+    /** @var array $checklist_color */
+    /** @var array $criteria_titles */
 
     if (!isset($_SESSION['user'])) {
-        header('location: /');
+        leave('/login');
     }
 
-    $checklist_color = [
-        0 => ['#bffbff', '#ace3e7', '#68d2da', '#62c6ce', '#c4e2e5'],
-        1 => ['#e4e4e4', '#d3d3d3', '#555555', '#333333', '#cccccc'],
-        2 => ['#ffb257', '#ffa030', '#ff9e2c', '#f88c0c', '#ffdaae'],
-        3 => ['#d6e9f9', '#bcd7ee', '#65a9e4', '#5091ca', '#c4e0f8'],
-        4 => ['#efe0ba', '#dfc995', '#b6a477', '#988963', '#e5d09d'],
-        5 => ['#d3ffb3', '#b7e296', '#90cf61', '#84bf57', '#ccf1b0'],
-        6 => ['#ff9770', '#ff8051', '#ff723d', '#e15d2b', '#ffb79c'],
-        7 => ['#efc4ef', '#eb94eb', '#dc71dc', '#c558c5', '#f9c8f9'],
-        8 => ['#fff68e', '#ffe667', '#f4cd00', '#e2c00b', '#ffee97'],
-        9 => ['#b5b4e5', '#979cd7', '#6e6cd7', '#5d5bce', '#c8c7f2']
-    ];
+    if (!isset($_GET['id']) or !isset($_GET['audit'])) {
+        leave();
+    }
+
+    $auditid = +$_GET['audit'];
+    $checkid = +$_GET['id'];
+    $myid = +$_SESSION['user']['id'];
+
+    $connection = get_connection();
+
+    $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.$auditid.'"'), MYSQLI_ASSOC);
+
+    if (empty($audit)) {
+        leave();
+    }
+
+    $audit = $audit[0];
+    $audit['admin'] = +$audit['admin'];
+    $users = json_decode($audit['users']);
+
+    if (!in_array($myid, $users) and $myid !== $audit['admin']) {
+        leave();
+    }
 
     print(include_template([
         'page' => 'confirmedit.php',
         'title' => 'Подтвердить редактирование',
         'scripts' => [],
-        'data' => [],
-        'theme' => $checklist_color[+$_GET['id']][0]
+        'data' => [
+            'criteria_titles' => $criteria_titles,
+            'checklist_color' => $checklist_color,
+            'audit' => $audit,
+            'auditid' => $auditid,
+            'checkid' => $checkid
+        ],
+        'theme' => $checklist_color[$checkid][0]
     ]));

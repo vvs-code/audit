@@ -2,20 +2,33 @@
 
     require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
     require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
-    $connection = get_connection();
-    $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.+$_POST['id'].'"'), MYSQLI_ASSOC)[0];
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (!empty(trim($_POST['title'])) and !empty($_POST['datestart']) and !empty($_POST['dateend']) and !empty($_POST['coeff'])) {
-            if (+$audit['admin'] === +$_SESSION['user']['id']) {
-                mysqli_query($connection, 'UPDATE audits SET title = "'.mysqli_real_escape_string($connection, trim($_POST['title'])).'", datestart = "'.mysqli_real_escape_string($connection, $_POST['datestart']).'", dateend = "'.mysqli_real_escape_string($connection, $_POST['dateend']).'", coeff = "'.mysqli_real_escape_string($connection, $_POST['coeff']).'" WHERE id = '.+$_POST['id']);
-                header('location: /audit?id='.+$_POST['id']);
-            } else {
-                header('location: /editaudit?id='.+$_POST['id'].'&error=rights');
-            }
-        } else {
-            header('location: /editaudit?id='.+$_POST['id'].'&error=empty');
-        }
-    } else {
-        header('location: /');
+    $connection = get_connection();
+
+    $auditid = +$_POST['id'];
+    $myid = +$_SESSION['user']['id'];
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        leave();
     }
+
+    if (empty(trim($_POST['title'])) or empty($_POST['datestart']) or empty($_POST['dateend']) or empty($_POST['coeff'])) {
+        leave('/editaudit?id='.$auditid.'&error=empty');
+    }
+
+    $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.$auditid.'"'), MYSQLI_ASSOC);
+
+    if (empty($audit)) {
+        leave();
+    }
+
+    $audit = $audit[0];
+    $audit['admin'] = +$audit['admin'];
+
+    if ($audit['admin'] !== $myid) {
+        leave();
+    }
+
+    mysqli_query($connection, 'UPDATE audits SET title = "'.safe_string(trim($_POST['title'])).'", datestart = "'.safe_string($_POST['datestart']).'", dateend = "'.safe_string($_POST['dateend']).'", coeff = "'.safe_string($_POST['coeff']).'" WHERE id = '.$auditid);
+
+    leave('/audit?id='.$auditid);

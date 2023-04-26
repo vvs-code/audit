@@ -5,7 +5,7 @@ let weightSelects = document.querySelectorAll('.checklist__weight');
 for (let i = 0, max = weightSelects.length; i < max; i++) {
     weightSelects[i].addEventListener('change', evt => {
         weightSelects[i].classList.add('pending');
-        let mark = evt.target;
+
         ajax('/modules/weight', {
             method: 'POST',
             data: {
@@ -30,14 +30,14 @@ let joinChecklistButtons = document.querySelectorAll('[data-join]');
 
 for (let i = 0, max = joinChecklistButtons.length; i < max; i++) {
     let activator = joinChecklistButtons[i];
-    activator.addEventListener('click', evt => {
+    activator.addEventListener('click', () => {
         ajax('/modules/joinchecklist', {
             method: 'POST',
             data: {
                 checklist: activator.dataset.join,
                 id: auditid
             },
-            success: xhr => {
+            success: () => {
                 activator.hidden = true;
                 document.querySelector('[data-leave="' + activator.dataset.join + '"]').hidden = false;
             }
@@ -49,14 +49,14 @@ let leaveChecklistButtons = document.querySelectorAll('[data-leave]');
 
 for (let i = 0, max = leaveChecklistButtons.length; i < max; i++) {
     let activator = leaveChecklistButtons[i];
-    activator.addEventListener('click', evt => {
+    activator.addEventListener('click', () => {
         ajax('/modules/leavechecklist', {
             method: 'POST',
             data: {
                 checklist: activator.dataset.leave,
                 id: auditid
             },
-            success: xhr => {
+            success: () => {
                 activator.hidden = true;
                 document.querySelector('[data-join="' + activator.dataset.leave + '"]').hidden = false;
             }

@@ -1,14 +1,54 @@
 <?php
 
     require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
+    require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
 
     if (!isset($_SESSION['user'])) {
-        header('location: /login');
+        leave('/login');
+    }
+
+    if (!isset($_GET['id'])) {
+        leave();
+    }
+
+    $auditid = +$_GET['id'];
+    $myid = +$_SESSION['user']['id'];
+
+    $connection = get_connection();
+
+    $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.$auditid.'"'), MYSQLI_ASSOC);
+
+    if (empty($audit)) {
+        leave();
+    }
+
+    $audit = $audit[0];
+    $audit['admin'] = +$audit['admin'];
+    $users = json_decode($audit['users']);
+
+    if (!in_array($myid, $users) and $myid !== $audit['admin']) {
+        leave();
+    }
+
+    $errormessage = '';
+
+    if (isset($_GET['error'])) {
+        $error = $_GET['error'];
+
+        if ($error === 'empty') {
+            $errormessage = 'Не все поля заполнены';
+        } elseif ($error === 'rights') {
+            $errormessage = 'Нет прав на редактрование аудита';
+        }
     }
 
     print(include_template([
         'page' => 'editaudit.php',
         'title' => 'Редактировать аудит',
         'scripts' => [],
-        'data' => []
+        'data' => [
+            'audit' => $audit,
+            'auditid' => $auditid,
+            'errormessage' => $errormessage
+        ]
     ]));

@@ -1,5 +1,11 @@
 <?php
 
+    // Файл со всеми данными чек-листов, на данный момент заполнен
+    // в соответствии с проектом стандарта
+
+    // В будущем может быть добавлена возможность редактирования
+    // чек-листов через админ-панель или другим образом
+
     $profile_to_checklists = [
         'РИ' => [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
         'Р' => [1, 0, 1, 1, 0, 1, 0, 1, 0, 0],
@@ -36,6 +42,18 @@
         7 => 15,
         8 => 11,
         9 => 17,
+    ];
+
+    $possible_weights = [
+        0.05, 0.1, 0.15,
+        0.2, 0.25,
+        0.3, 0.35,
+        0.4, 0.45,
+        0.5, 0.55,
+        0.6, 0.65,
+        0.7, 0.75,
+        0.8, 0.85,
+        0.9, 0.95, 1
     ];
 
     $criteria_titles = [
@@ -84,13 +102,19 @@
         9 => ['#b5b4e5', '#979cd7', '#6e6cd7', '#5d5bce', '#c8c7f2']
     ];
 
+
+    /**
+     * @param $n
+     * @param $val
+     * @return array
+     */
     function get_array_of_ns ($n, $val) {
         $arr = [];
         for ($i = 0; $i < $n; $i++) {
             $arr[] = $val;
         }
         return $arr;
-    };
+    }
 
     $checklists = [
         0 => [
@@ -1024,6 +1048,12 @@
     define('CHECKLISTS', $checklists);
     define('COEFFTONUM', $coeff_to_num);
 
+    /**
+     * @param $audit
+     * @param $checklists
+     * @param $coeff_to_num
+     * @return array
+     */
     function get_final_for_checklist ($audit, $checklists = CHECKLISTS, $coeff_to_num = COEFFTONUM) {
         $sumfinal = 0;
         $finals = [];
@@ -1037,9 +1067,6 @@
 
                 $unedited = (count(array_filter($marks[$i], function ($value) {
                     return $value === -1;
-                })));
-                $edited = (count(array_filter($marks[$i], function ($value) {
-                    return $value !== -1;
                 })));
 
                 if ($unedited === 0) {
@@ -1085,9 +1112,9 @@
 
         if ($sumfinal >= 86) {
             $class = 'A';
-        } else if ($sumfinal >= 70) {
+        } elseif ($sumfinal >= 70) {
             $class = 'B';
-        } else if ($sumfinal >= 50) {
+        } elseif ($sumfinal >= 50) {
             $class = 'C';
         } else {
             $class = 'D';
@@ -1099,4 +1126,4 @@
             'class' => $class,
             'full' => $full
         ];
-    };
+    }

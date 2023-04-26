@@ -1,17 +1,7 @@
 <?php
-    if (!isset($_GET['id'])) {
-        header('location: /');
-    }
-
-    require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
-    require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
-    $connection = get_connection();
-    $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.+$_GET['id'].'"'), MYSQLI_ASSOC)[0];
-    $users = json_decode($audit['users']);
-
-    if (+$_SESSION['user']['id'] !== +$audit['admin']) {
-        header('location: /');
-    }
+    /** Импортируемые переменные */
+    /** @var array $audit */
+    /** @var int $auditid */
 ?>
 
 <div class="top">
@@ -41,7 +31,7 @@
         <p style="margin-bottom: 15px;">Вы точно хотите удалить аудит предприятия <b><?=$audit['title']?> (<?=format_date_range($audit['datestart'], $audit['dateend'])?>)?</b></p>
         <div style="display: flex; align-items: center;">
             <a href="/" class="cancel-delete">Отменить</a>
-            <a href="/modules/deleteaudit?id=<?=+$_GET['id']?>" class="confirm-delete">Удалить</a>
+            <a href="/modules/deleteaudit?id=<?=$auditid?>" class="confirm-delete">Удалить</a>
         </div>
     </div>
 </div>

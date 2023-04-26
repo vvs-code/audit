@@ -1,21 +1,13 @@
 <?php
-    if (!isset($_GET['id'])) {
-        header('location: /');
-    }
-
-    require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
-    require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
-    $connection = get_connection();
-    $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.+$_GET['id'].'"'), MYSQLI_ASSOC)[0];
-    $users = json_decode($audit['users']);
-    if (!in_array(+$_SESSION['user']['id'], $users) and +$_SESSION['user']['id'] !== +$audit['admin']) {
-        header('location: /');
-    }
+    /** Импортируемые переменные */
+    /** @var array $audit */
+    /** @var int $auditid */
+    /** @var string $errormessage */
 ?>
 
 <div class="top">
     <div class="container">
-        <div class="top__title"><span><a href="/audit?id=<?=+$_GET['id']?>" class="back"><?=$audit['title']?></a> ⇢ Редактировать аудит</span></div>
+        <div class="top__title"><span><a href="/audit?id=<?=$auditid?>" class="back"><?=$audit['title']?></a> ⇢ Редактировать аудит</span></div>
     </div>
 </div>
 
@@ -36,20 +28,12 @@
 
 <div class="content">
     <div class="container" style="max-width: 500px;">
-        <h1><a href="/audit?id=<?=+$_GET['id']?>" class="back">⇠</a> Редактировать аудит</h1>
+        <h1><a href="/audit?id=<?=$auditid?>" class="back">⇠</a> Редактировать аудит</h1>
         <form action="/modules/editaudit" method="POST">
             <span class="error">
-                <?php
-                if (isset($_GET['error'])) {
-                    if ($_GET['error'] === 'empty') {
-                        print('Не все поля заполнены');
-                    } else if ($_GET['error'] === 'rights') {
-                        print('Нет прав на редактрование аудита');
-                    }
-                }
-                ?>
+                <?=$errormessage?>
             </span>
-            <input type="hidden" name="id" value="<?=+$_GET['id']?>">
+            <input type="hidden" name="id" value="<?=$auditid?>">
             <label>
                 <span>Предприятие:</span>
                 <input type="text" name="title" value="<?=implode('&quot;', explode('"', $audit['title']))?>">
@@ -77,7 +61,7 @@
                 <p style="font-size: 11px;">Поменять профиль после создания аудита невозможно</p>
             </label>
             <label>
-                <span>Весовой коэффициент:</span>
+                <span>Корректирующий коэффициент:</span>
                 <select name="coeff">
                     <option value="1.00" <?= ($audit['coeff'] === '1.00' ? 'selected' : '') ?>>1.00</option>
                     <option value="(1)0.90" <?= ($audit['coeff'] === '(1)0.90' ? 'selected' : '') ?>>(1) 0.90</option>

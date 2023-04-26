@@ -1,6 +1,6 @@
 <div class="content">
     <div class="container" style="max-width: 500px;">
-        <!--<img src="/styles/logo.png" alt="Логотип" style="height: 50px; margin: 35px auto 0; display: block;">-->
+        <img src="/styles/logo.png" alt="Логотип" style="height: 50px; margin: 35px auto 0; display: block;">
         <h1 style="padding-top: 0; text-align: center;font-weight: 500;">Создать аккаунт аудитора</h1>
         <form action="/modules/reg" method="POST">
             <span class="error">
@@ -8,12 +8,14 @@
                     if (isset($_GET['error'])) {
                         if ($_GET['error'] === 'email') {
                             print('Введите действительный email, пожалуйста');
-                        } else if ($_GET['error'] === 'empty') {
+                        } elseif ($_GET['error'] === 'empty') {
                             print('Не все поля заполнены');
-                        } else if ($_GET['error'] === 'passwordlength') {
+                        } elseif ($_GET['error'] === 'passwordlength') {
                             print('Пароль должен быть не менее 8 символов');
-                        } else if ($_GET['error'] === 'password2') {
+                        } elseif ($_GET['error'] === 'password2') {
                             print('Пароли не совпадают');
+                        } elseif ($_GET['error'] === 'exist') {
+                            print('Аккаунт уже существует');
                         }
                     }
                 ?>
@@ -33,6 +35,10 @@
             <label>
                 <span>Отчество:</span>
                 <input type="text" name="fathername">
+            </label>
+            <label>
+                <span>Должность:</span>
+                <input type="text" name="position">
             </label>
             <label>
                 <span>Пароль:</span>

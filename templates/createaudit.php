@@ -11,11 +11,7 @@
         <h1><a href="/" class="back">⇠</a> Создать аудит</h1>
         <form action="/modules/createaudit" method="POST">
             <span class="error">
-                <?php
-                if (isset($_GET['error'])) {
-                    print('Не все поля заполнены');
-                }
-                ?>
+                <?=isset($_GET['error']) ? 'Не все поля заполнены' : ''?>
             </span>
             <label>
                 <span>Предприятие:</span>
@@ -89,7 +85,7 @@
                 <p style="font-size: 12px; color: red;">Укажите веса чек-листов на странице созданного аудита!</p>
             </div>
             <label>
-                <span>Весовой коэффициент:</span>
+                <span>Корректирующий коэффициент:</span>
                 <select name="coeff">
                     <option value="1.00">1.00</option>
                     <option value="(1)0.90">(1) 0.90</option>

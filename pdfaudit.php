@@ -3,6 +3,12 @@
     require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
     require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
     require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
+    /** Импортируемые переменные */
+    /** @var array $checklist_color */
+    /** @var array $checklists */
+    /** @var array $coeff_to_num */
+    /** @var array $profile_to_full */
+    /** @var array $criteria_full_titles */
 
     http_response_code(200);
     $connection = get_connection();
@@ -87,9 +93,9 @@ ENDHTML;
 
     foreach ($checklists[$checklistnum]['categories'][0] as $i => $category) {
         $categories .= <<<HTML
-            <tr style="background-color: {$lightcolor};">
+            <tr style="background-color: $lightcolor;">
                 <td></td>
-                <td colspan="6">{$category}</td>
+                <td colspan="6">$category</td>
             </tr>
 HTML;
 
@@ -107,13 +113,13 @@ HTML;
             $comment = htmlspecialchars($audit['comments'][$checklistnum][$criteria]);
             $categories .= <<<HTML
             <tr style="line-height: 1em;">
-                <td style="text-align: center;">{$num}</td>
-                <td>{$title}</td>
-                <td {$standardstyle}>{$standard}</td>
-                <td style="text-align: center">{$mark}</td>
-                <td style="text-align: center">{$weight}</td>
-                <td style="text-align: center">{$res}</td>
-                <td>{$comment}</td>
+                <td style="text-align: center;">$num</td>
+                <td>$title</td>
+                <td $standardstyle>$standard</td>
+                <td style="text-align: center">$mark</td>
+                <td style="text-align: center">$weight</td>
+                <td style="text-align: center">$res</td>
+                <td>$comment</td>
             </tr>
 HTML;
         }
@@ -136,7 +142,7 @@ HTML;
     if ($checklistnum === 2) {
         $anno = '<p style="text-align: right; padding-bottom: 2mm; margin-top: -3mm;"><sup style="font-size: 10px">1</sup> Итоговая оценка по критерию (оценка аудитора &times; коэффициент значимости критерия)</p>';
         $header = <<<HTML
-            <tr style="text-align: center; background-color: {$lightcolor};">
+            <tr style="text-align: center; background-color: $lightcolor;">
                 <td style="width: 3%">№ п/п</td>
                 <td style="width: 23%">Критерий</td>
                 <td style="width: 41%">Характеристика оценки (0; 0,25; 0,5; 0,75; 1)</td>
@@ -149,7 +155,7 @@ HTML;
     } else {
         $anno = '';
         $header = <<<HTML
-            <tr style="text-align: center; background-color: {$lightcolor};">
+            <tr style="text-align: center; background-color: $lightcolor;">
                 <td style="width: 3%">№ п/п</td>
                 <td style="width: 35%">Критерий</td>
                 <td style="width: 10%">Стандарт ГОСТ Р ИСО 9001-2015 (ГОСТ РВ 0015-002-2020*) </td>
@@ -163,9 +169,7 @@ HTML;
 
     $participants = json_decode($audit['participants']);
 
-    $auditors = '';
-
-    $auditorscount = 0;
+        $auditorscount = 0;
 
     foreach ($participants[$checklistnum] as $participant) {
         $user = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM users WHERE id = '.+$participant), MYSQLI_ASSOC);
@@ -174,7 +178,7 @@ HTML;
             $name = $user['surname'] . ' ' . $user['name'] . ' ' . $user['fathername'];
             $auditors .= <<<ENDHTML
              <tr>
-                <td>{$name}</td>
+                <td>$name</td>
                 <td></td>
                 <td></td>
                 <td style="border: none;"></td>
@@ -188,8 +192,7 @@ ENDHTML;
     }
 
     if ($auditorscount < 2) {
-        for ($i = 0; $i < 2 - $auditorscount; $i++) {
-            $auditors .= <<<ENDHTML
+        $auditors = str_repeat(<<<ENDHTML
              <tr>
                 <td></td>
                 <td></td>
@@ -199,8 +202,8 @@ ENDHTML;
                 <td></td>
                 <td></td>
             </tr>
-ENDHTML;
-        }
+ENDHTML
+            , 2 - $auditorscount);
     }
 
     $resmark_text = $resmark === '' ? '' : number_format((float)$resmark, 2, ',', ' ');
@@ -209,25 +212,25 @@ ENDHTML;
     $coeff_text = $coeff === '' ? '' : number_format((float)$coeff, 2, ',', ' ');
     $final_text = $final === '' ? '' : number_format((float)$final, 2, ',', ' ');
 
-    $goz = ($checklistnum !== 2 ? "* для организаций, выполняющих работы в обеспечение ГОЗ" : '');
+    $goz = ($checklistnum !== 2 ? '* для организаций, выполняющих работы в обеспечение ГОЗ' : '');
     $tables[] = <<<ENDHTML
 
         <div style="padding-bottom: 5mm">
             <span style="font-size: 4.5mm; padding-top: 5mm; padding-bottom: 4.5mm; display: inline-block; padding-right: 3mm;">АО «ОСК»</span>
-            <img src="{$osklogo}" alt="Логотип ОСК" style="width: 17mm; height: 17mm;">
+            <img src="$osklogo" alt="Логотип ОСК" style="width: 17mm; height: 17mm;">
             <span style="margin-left: auto; display: inline-block; padding-left: 180mm; font-size: 4mm; padding-top: 5mm; padding-bottom: 5mm;">СТО ОСК.КСМК 00.099-2022</span>
         </div>
         <div>
             <div style="display: inline-block; width: 35%;">
-                <p>{$date}</p>
+                <p>$date</p>
                 <p>Наименование предприятия: {$audit['title']}</p>
                 <p style="margin-bottom: 5px;">Профиль предприятия: {$profile_to_full[$audit['profile']]}</p>
             </div>
             <div style="display: inline-block; text-align: right; font-size: 16px; width: 64%; padding-bottom: 5mm">
                 <p>Чек-лист оценки поставщика</p>
-                <p>Часть {$checklistnum}. {$criteria_full_titles[$checklistnum]}</p>
+                <p>Часть $checklistnum. $criteria_full_titles[$checklistnum]</p>
             </div>
-            {$anno}
+            $anno
         </div>
         <table style="width: 100%; white-space: break-spaces; border-collapse: collapse; page-break-inside: auto;">
             {$header}
@@ -235,30 +238,30 @@ ENDHTML;
         </table>
         <table style="width: 100%; white-space: break-spaces; border-collapse: collapse; text-align: right;">
             <tr>
-                <td style="width: 46%; border: none; text-align: left;">{$goz}</td>
-                <td style="width: 20%; background-color: {$lightcolor}; border-top: none;">Максимально возможная оценка</td>
-                <td style="width: 7%; background-color: {$lightcolor}; text-align: center; border-top: none;">{$maxmarksum}</td>
-                <td style="width: 20%; background-color: {$lightcolor}; border-top: none;">Показатель соответствия</td>
-                <td style="width: 7%; background-color: {$lightcolor}; text-align: center; border-top: none;">{$Qi}</td>
+                <td style="width: 46%; border: none; text-align: left;">$goz</td>
+                <td style="width: 20%; background-color: $lightcolor; border-top: none;">Максимально возможная оценка</td>
+                <td style="width: 7%; background-color: $lightcolor; text-align: center; border-top: none;">$maxmarksum</td>
+                <td style="width: 20%; background-color: $lightcolor; border-top: none;">Показатель соответствия</td>
+                <td style="width: 7%; background-color: $lightcolor; text-align: center; border-top: none;">$Qi</td>
             </tr>
             <tr>
                 <td style="border: none;"></td>
-                <td style="background-color: {$lightcolor};">Набранная оценка</td>
-                <td style="background-color: {$lightcolor}; text-align: center;">{$resmark_text}</td>
-                <td style="background-color: {$lightcolor};">Весовой коэффициент</td>
-                <td style="background-color: {$lightcolor}; text-align: center;">{$checklistweight_text}</td>
+                <td style="background-color: $lightcolor;">Набранная оценка</td>
+                <td style="background-color: $lightcolor; text-align: center;">$resmark_text</td>
+                <td style="background-color: $lightcolor;">Весовой коэффициент</td>
+                <td style="background-color: $lightcolor; text-align: center;">$checklistweight_text</td>
             </tr>
             <tr>
                 <td style="border: none;"></td>
-                <td style="background-color: {$lightcolor};">Итоговая оценка</td>
-                <td style="background-color: {$lightcolor}; text-align: center;">{$wmark_text}</td>
-                <td style="background-color: {$lightcolor};">Корректирующий коэффициент</td>
-                <td style="background-color: {$lightcolor}; text-align: center;">{$coeff_text}</td>
+                <td style="background-color: $lightcolor;">Итоговая оценка</td>
+                <td style="background-color: $lightcolor; text-align: center;">$wmark_text</td>
+                <td style="background-color: $lightcolor;">Корректирующий коэффициент</td>
+                <td style="background-color: $lightcolor; text-align: center;">$coeff_text</td>
             </tr>
             <tr>
                 <td style="border: none;"></td>
-                <td style="background-color: {$darkcolor};">Скорректированная итоговая оценка</td>
-                <td style="background-color: {$darkcolor}; text-align: center;">{$final_text}</td>
+                <td style="background-color: $darkcolor;">Скорректированная итоговая оценка</td>
+                <td style="background-color: $darkcolor; text-align: center;">$final_text</td>
                 <td style="border: none;"></td>
                 <td style="border: none;"></td>
             </tr>
@@ -282,7 +285,7 @@ ENDHTML;
                 <td>Подпись</td>
                 <td>Дата</td>
             </tr>
-            {$auditors}
+            $auditors
         </table>
         
 
