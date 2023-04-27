@@ -8,6 +8,9 @@
     }
 
     $myid = +$_SESSION['user']['id'];
+    $surname = $_SESSION['user']['surname'];
+    $nameletter = preg_split('//u', $_SESSION['user']['name'], -1, PREG_SPLIT_NO_EMPTY)[0];
+    $fathernameletter = preg_split('//u', $_SESSION['user']['fathername'], -1, PREG_SPLIT_NO_EMPTY)[0];
 
     $connection = get_connection();
 
@@ -61,6 +64,9 @@
         'scripts' => [],
         'data' => [
             'myaudits' => $myaudits,
-            'myid' => $myid
+            'myid' => $myid,
+            'surname' => $surname,
+            'nameletter' => $nameletter,
+            'fathernameletter' => $fathernameletter
         ]
     ]));

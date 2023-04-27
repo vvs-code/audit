@@ -1,3 +1,9 @@
+<?php
+    /** Импортируемые переменные */
+    /** @var array $profile_to_full */
+    /** @var array $profiles_list */
+?>
+
 <div class="top">
     <div class="container">
         <div class="top__title"><a href="/" class="back">Аудиты</a> ⇢ Создать аудит</div>
@@ -30,12 +36,13 @@
             <label>
                 <span>Профиль предприятия:</span>
                 <select name="profile" onchange="(document.querySelector('.checklist-multiple-choose').hidden = document.querySelector('[name=profile]').value !== 'Др')">
-                    <option value="РИ">Разработчик-изготовитель</option>
-                    <option value="Р">Разработчик</option>
-                    <option value="И">Изготовитель</option>
-                    <option value="У">Услуги</option>
-                    <option value="Д">Дилер</option>
-                    <option value="Др">Другое</option>
+
+                    <?php foreach ($profiles_list as $profile): ?>
+
+                        <option value="<?=$profile?>"><?=$profile_to_full[$profile]?></option>
+
+                    <?php endforeach; ?>
+
                 </select>
             </label>
             <div class="checklist-multiple-choose" hidden>

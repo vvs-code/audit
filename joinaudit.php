@@ -3,7 +3,7 @@
     require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
 
     if (!isset($_SESSION['user'])) {
-        header('location: /login');
+        leave('/login');
     }
 
     $errormessage = '';

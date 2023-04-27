@@ -55,6 +55,18 @@ body {
     align-items: center;
   }
 
+  &__svg {
+    height: 1em;
+    fill: #000;
+    transform: translateY(2px);
+  }
+
+  a:hover {
+    .top__svg {
+      fill: #555;
+    }
+  }
+
   &__title {
     margin-right: auto;
     font-weight: 700;
@@ -92,6 +104,10 @@ body {
   white-space: nowrap;
 }
 
+.account-form {
+  margin: 20px 0;
+}
+
 .top__title {
   height: 100%;
   display: flex;
@@ -117,6 +133,7 @@ h1 {
   &.flexed {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .title-svg {
@@ -129,6 +146,17 @@ h1 {
     flex-wrap: wrap;
     align-items: center;
     padding: 3px 0;
+  }
+
+  .title-name {
+    margin-left: auto;
+    font-size: 15px;
+    padding: 10px 0 10px 15px;
+    font-weight: 400;
+
+    svg {
+      margin-right: 5px;
+    }
   }
 }
 
@@ -145,6 +173,10 @@ form {
     font-style: italic;
   }
 
+  .success {
+    color: #3bbe23;
+    font-style: italic;
+  }
 
   label {
     display: block;

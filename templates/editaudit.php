@@ -3,6 +3,8 @@
     /** @var array $audit */
     /** @var int $auditid */
     /** @var string $errormessage */
+    /** @var array $profile_to_full */
+    /** @var array $profiles_list */
 ?>
 
 <div class="top">
@@ -23,7 +25,7 @@
             <input type="hidden" name="id" value="<?=$auditid?>">
             <label>
                 <span>Предприятие:</span>
-                <input type="text" name="title" value="<?=implode('&quot;', explode('"', $audit['title']))?>">
+                <input type="text" name="title" value="<?=safe_attribute($audit['title'])?>">
             </label>
             <div class="in-app-form__flex-dates">
                 <label>
@@ -38,12 +40,13 @@
             <label>
                 <span>Профиль предприятия:</span>
                 <select name="profile" class="inactive">
-                    <option value="РИ" <?= ($audit['profile'] === 'РИ' ? 'selected' : '') ?>>Разработчик-изготовитель</option>
-                    <option value="Р" <?= ($audit['profile'] === 'Р' ? 'selected' : '') ?>>Разработчик</option>
-                    <option value="И" <?= ($audit['profile'] === 'И' ? 'selected' : '') ?>>Изготовитель</option>
-                    <option value="У" <?= ($audit['profile'] === 'У' ? 'selected' : '') ?>>Услуги</option>
-                    <option value="Д" <?= ($audit['profile'] === 'Д' ? 'selected' : '') ?>>Дилер</option>
-                    <option value="Др" <?= ($audit['profile'] === 'Др' ? 'selected' : '') ?>>Другое</option>
+
+                    <?php foreach ($profiles_list as $profile): ?>
+
+                        <option value="<?=$profile?>" <?= ($audit['profile'] === $profile ? 'selected' : '') ?>><?=$profile_to_full[$profile]?></option>
+
+                    <?php endforeach; ?>
+
                 </select>
                 <p class="anno">Поменять профиль после создания аудита невозможно</p>
             </label>

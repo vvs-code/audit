@@ -11,7 +11,7 @@
                         } elseif ($_GET['error'] === 'empty') {
                             print('Не все поля заполнены');
                         } elseif ($_GET['error'] === 'passwordlength') {
-                            print('Пароль должен быть не менее 8 символов');
+                            print('Пароль должен быть не короче 8 символов');
                         } elseif ($_GET['error'] === 'password2') {
                             print('Пароли не совпадают');
                         } elseif ($_GET['error'] === 'exist') {

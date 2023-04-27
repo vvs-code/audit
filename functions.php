@@ -37,6 +37,14 @@
     }
 
     /**
+     * @param $string
+     * @return string
+     */
+    function safe_attribute ($string) {
+        return implode('&quot;', explode('"', $string));
+    }
+
+    /**
      * @param $data
      * @param $name
      * @param $path_type

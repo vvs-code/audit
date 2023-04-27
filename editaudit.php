@@ -2,6 +2,9 @@
 
     require_once $_SERVER['DOCUMENT_ROOT'].'/functions.php';
     require_once $_SERVER['DOCUMENT_ROOT'].'/modules/checklistsdata.php';
+    /** Импортируемые переменные */
+    /** @var array $profile_to_full */
+    /** @var array $profiles_list */
 
     if (!isset($_SESSION['user'])) {
         leave('/login');
@@ -49,6 +52,8 @@
         'data' => [
             'audit' => $audit,
             'auditid' => $auditid,
-            'errormessage' => $errormessage
+            'errormessage' => $errormessage,
+            'profile_to_full' => $profile_to_full,
+            'profiles_list' => $profiles_list
         ]
     ]));
