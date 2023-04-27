@@ -24,6 +24,7 @@ for (let i = 0, max = standardActivators.length; i < max; i++) {
     });
 }
 
+let openedbyneg2  = [];
 let commentsActivators = document.querySelectorAll('[data-comments]');
 let throttle = [];
 
@@ -55,6 +56,7 @@ for (let i = 0, max = commentsActivators.length; i < max; i++) {
                 success: xhr => {
                     status.textContent = 'Сохранено';
                     console.log(xhr.response);
+                    openedbyneg2[id] = false;
                     if (evt.target.value.trim()) {
                         activator.classList.add('filled');
                     } else {
@@ -87,8 +89,6 @@ for (let i = 0, max = titles.length; i < max; i++) {
 
 let criteriaMarks = document.querySelectorAll('[data-criteria]');
 
-let openedbyneg2  = [];
-
 for (let i = 0, max = criteriaMarks.length; i < max; i++) {
     criteriaMarks[i].addEventListener('change', evt => {
         criteriaMarks[i].classList.add('pending');
@@ -96,10 +96,12 @@ for (let i = 0, max = criteriaMarks.length; i < max; i++) {
 
         console.log(parseInt(mark.value), document.querySelector('#comments-' + mark.dataset.criteria), '#comments-' + mark.dataset.criteria);
         if (parseInt(mark.value) === -2) {
+            if (document.querySelector('#comments-' + mark.dataset.criteria).hidden) {
+                openedbyneg2[mark.dataset.criteria] = true;
+            }
             document.querySelector('#comments-' + mark.dataset.criteria).hidden = false;
             document.querySelector('[data-comments="' + mark.dataset.criteria + '"]').classList.add('active');
-            openedbyneg2[mark.dataset.criteria] = true;
-        } else if (openedbyneg2[mark.dataset.criteria]) {
+        } else if (openedbyneg2[mark.dataset.criteria] && !document.querySelector('#comments-' + mark.dataset.criteria + ' textarea').value.trim()) {
             document.querySelector('#comments-' + mark.dataset.criteria).hidden = true;
             document.querySelector('[data-comments="' + mark.dataset.criteria + '"]').classList.remove('active');
             openedbyneg2[mark.dataset.criteria] = false;
