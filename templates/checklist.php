@@ -103,7 +103,7 @@
                                     <div class="criteria__marks-flex">
                                         <label class="criteria__mark">
                                             <input type="radio" name="mark" data-criteria="<?=$criterianum?>" value="-2" hidden <?=$marks[$checkid][$criterianum] === -2 ? 'checked' : ''?>>
-                                            <span>Не применим</span>
+                                            <span>Не применяется</span>
                                         </label>
                                         <label class="criteria__icon">
                                             <input type="radio" name="mark" data-criteria="<?=$criterianum?>" value="-1" hidden <?=$marks[$checkid][$criterianum] === -1 ? 'checked' : ''?>>
