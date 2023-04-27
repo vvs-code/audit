@@ -87,6 +87,8 @@ for (let i = 0, max = titles.length; i < max; i++) {
 
 let criteriaMarks = document.querySelectorAll('[data-criteria]');
 
+let openedbyneg2  = [];
+
 for (let i = 0, max = criteriaMarks.length; i < max; i++) {
     criteriaMarks[i].addEventListener('change', evt => {
         criteriaMarks[i].classList.add('pending');
@@ -96,6 +98,11 @@ for (let i = 0, max = criteriaMarks.length; i < max; i++) {
         if (parseInt(mark.value) === -2) {
             document.querySelector('#comments-' + mark.dataset.criteria).hidden = false;
             document.querySelector('[data-comments="' + mark.dataset.criteria + '"]').classList.add('active');
+            openedbyneg2[mark.dataset.criteria] = true;
+        } else if (openedbyneg2[mark.dataset.criteria]) {
+            document.querySelector('#comments-' + mark.dataset.criteria).hidden = true;
+            document.querySelector('[data-comments="' + mark.dataset.criteria + '"]').classList.remove('active');
+            openedbyneg2[mark.dataset.criteria] = false;
         }
 
         ajax('/modules/mark', {
