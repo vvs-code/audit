@@ -14,7 +14,6 @@
     <meta name="theme-color" content="<?=isset($theme) ? $theme : '#f1f1f1'?>" />
 
     <link rel="shortcut icon" href="/favicon/audit.ico" type="image/x-icon">
-<!--    <link rel="mask-icon" href="/audit.ico" color="#121212">-->
 
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
@@ -30,13 +29,13 @@
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-<!--    <link rel="stylesheet" href="/styles/main.min.css?1">-->
         <link rel="stylesheet/less" href="/styles/main.less?2">
         <script src="/scripts/less.min.js"></script>
 
 </head>
 <body>
 
+<!-- styles in case of compilation troubles -->
 <style>
     .no-js,
     .ie {
@@ -61,6 +60,30 @@
     .ie span {
         width: 600px;
         max-width: 80%;
+    }
+    .ie-message {
+        width: 400px;
+        position: fixed;
+        z-index: 2;
+        bottom: 20px;
+        right: 20px;
+        font-size: 16px;
+        background-color: #e8e8e8;
+        padding: 20px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, .4);
+    }
+    .ie-message button {
+        background-color: #ccc;
+        border: none;
+        padding: 5px 15px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+    .ie-message button:hover {
+        background-color: #bbb;
+    }
+    .ie-message button:active {
+        background-color: #aaa;
     }
 </style>
 
@@ -96,33 +119,6 @@
     <button class="close" onclick="document.querySelector('.ie-message').hidden = true; localStorage['ie'] = 1">Закрыть</button>
 </div>
 
-<style>
-    .ie-message {
-        width: 400px;
-        position: fixed;
-        z-index: 2;
-        bottom: 20px;
-        right: 20px;
-        font-size: 16px;
-        background-color: #e8e8e8;
-        padding: 20px;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, .4);
-    }
-    .ie-message button {
-        background-color: #ccc;
-        border: none;
-        padding: 5px 15px;
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .ie-message button:hover {
-        background-color: #bbb;
-    }
-    .ie-message button:active {
-        background-color: #aaa;
-    }
-</style>
-
 <script>
     if (document.documentMode && !+localStorage['ie']) {
         document.querySelector('.ie-message').hidden = false;
@@ -130,7 +126,6 @@
     }
 </script>
 
-<!--<script src="/scripts/vue.min.js"></script>-->
 <script src="/scripts/main.js"></script>
 
 <?php /** @var array $scripts */

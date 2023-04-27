@@ -11,14 +11,14 @@
     </div>
 </div>
 
-<div class="top-placeholder" style="height: 50px;"></div>
+<div class="top-placeholder"></div>
 
 <div class="content">
     <div class="container">
         <div class="audits">
             <h1>
                 <span>Аудиты</span>
-                <div style="display: flex; flex-wrap: wrap; align-items: center; padding: 3px 0;">
+                <div class="title-buttons">
                     <a href="/createaudit" class="audits__create">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M240 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H176V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H240V80z"/></svg> Создать</a>
                     <a href="/joinaudit" class="audits__join">
@@ -28,21 +28,21 @@
 
             <?php if (!count($myaudits)): ?>
 
-                <p style="width: 400px; max-width: 100%; text-align: center; margin: 0 auto; padding: 10px; font-style: italic; opacity: 0.7;">Аудитов пока нет, создайте новый или присоединитесь к существующему аудиту</p>
+                <p class="audits__no-audits">Аудитов пока нет, создайте новый или присоединитесь к существующему аудиту</p>
 
             <?php endif; ?>
 
             <?php foreach ($myaudits as $audit): ?>
 
                 <div class="audit" style="background: linear-gradient(90deg, #f1f1f1, #f1f1f1, <?=($audit['finished'] ? ($audit['finals']['full'] ?'#09b534' : '#ffb500') : '#ab4eff')?>22);">
-                    <div style="margin: 3px 0; display: flex; flex-direction: column;">
+                    <div class="audit__column-container">
                         <span>
                             <a href="/audit?id=<?=$audit['id']?>" class="audit__title"><?=$audit['title']?></a>
                             <span class="audit__class">(<?=$audit['profile']?>)</span>
                         </span>
-                        <span style="opacity: 0.5; white-space: nowrap; padding: 3px 0;"> <?=format_date_range($audit['datestart'], $audit['dateend'])?></span>
+                        <span class="audit__date nowrap"> <?=format_date_range($audit['datestart'], $audit['dateend'])?></span>
                     </div>
-                    <div style="margin: 3px 0; display: flex; align-items: center; margin-left: auto;">
+                    <div class="audit__inner-container">
                         <div class="audit__status audit__status--<?=$audit['finished'] ? ($audit['finals']['full'] ? 'ready' : 'blocked') : 'in-progress'?>"><?=+$audit['finished'] ? ($audit['finals']['full'] ? 'Завершен' : 'Заблокирован') : 'Активен'?></div>
 
                         <?php if ($audit['finished'] and !$audit['finals']['full']): ?>

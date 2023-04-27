@@ -84,6 +84,23 @@ body {
   }
 }
 
+.top-placeholder {
+  height: 50px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.top__title {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+
 h1 {
   padding: 35px 0 15px;
   #montserrat();
@@ -95,6 +112,23 @@ h1 {
     &:hover {
       color: #555;
     }
+  }
+
+  &.flexed {
+    display: flex;
+    align-items: center;
+  }
+
+  .title-svg {
+    height: 1em;
+    margin-right: 15px;
+  }
+
+  .title-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 3px 0;
   }
 }
 
@@ -157,6 +191,88 @@ form {
   }
 }
 
+.checklist-container {
+  max-width: 600px;
+
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+.login-form {
+  max-width: 500px;
+
+  &__logo {
+    height: 50px;
+    margin: 35px auto 0;
+    display: block;
+  }
+
+  h1 {
+    padding-top: 0;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  button {
+    margin-bottom: 10px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #398aff;
+    border-bottom: 1px solid #398aff;
+
+    &:hover {
+      color: #2166c9;
+      border-bottom: 1px solid #2166c9;
+    }
+  }
+}
+
+.in-app-form {
+  max-width: 500px !important;
+
+  &__flex-dates {
+    display: flex;
+    width: 100%;
+
+    label {
+      width: 100%;
+
+      &:first-child {
+        margin-right: 5px;
+      }
+
+      &:last-child {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &__flex-buttons {
+    display: flex;
+    align-items: center;
+  }
+
+  .inactive {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .bottom-margin {
+    margin-bottom: 15px;
+  }
+
+  .anno {
+    font-size: 11px;
+
+    &.red {
+      color: red;
+    }
+  }
+}
+
 .checklist-multiple-choose {
   margin-top: 5px;
 
@@ -209,6 +325,17 @@ form {
 
 .audits,
 .auditpage {
+
+  &__no-audits {
+    width: 400px;
+    max-width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    padding: 10px;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
   h1 {
     display: flex;
     flex-wrap: wrap;
@@ -287,6 +414,29 @@ form {
   width: 100%;
   background-color: #f1f1f1;
   margin: 10px 0;
+
+  &__column-container {
+    margin: 3px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__date {
+    opacity: 0.5;
+    padding: 3px 0;
+  }
+
+  &__container {
+    margin: 3px 0;
+    display: flex;
+  }
+
+  &__inner-container {
+    margin: 3px 0;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
 
   &__number {
     margin-right: 5px;
@@ -441,9 +591,19 @@ form {
   }
 }
 
-.auditor__title {
-  &:hover {
-    color: #000;
+.auditor {
+  &__title {
+    padding: 5px;
+    margin-right: 5px;
+
+    &:hover {
+      color: #000;
+    }
+  }
+
+  &__leave-placeholder {
+    width: 20px;
+    margin-left: 12px;
   }
 }
 
@@ -516,6 +676,10 @@ form {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+  }
+
+  &__marks-flex {
+    display: flex;
   }
 
   &__icon {

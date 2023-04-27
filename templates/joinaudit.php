@@ -9,10 +9,10 @@
     </div>
 </div>
 
-<div class="top-placeholder" style="height: 50px;"></div>
+<div class="top-placeholder"></div>
 
 <div class="content">
-    <div class="container" style="max-width: 500px;">
+    <div class="container in-app-form">
         <h1><a href="/" class="back">⇠</a> Присоединиться к аудиту</h1>
         <form action="/modules/joinaudit" method="POST">
             <span class="error">

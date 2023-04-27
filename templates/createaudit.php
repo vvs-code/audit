@@ -4,10 +4,10 @@
     </div>
 </div>
 
-<div class="top-placeholder" style="height: 50px;"></div>
+<div class="top-placeholder"></div>
 
 <div class="content">
-    <div class="container" style="max-width: 500px;">
+    <div class="container in-app-form">
         <h1><a href="/" class="back">⇠</a> Создать аудит</h1>
         <form action="/modules/createaudit" method="POST">
             <span class="error">
@@ -17,12 +17,12 @@
                 <span>Предприятие:</span>
                 <input type="text" name="title">
             </label>
-            <div style="display: flex; width: 100%;">
-                <label style="width: 100%; margin-right: 5px;">
+            <div class="in-app-form__flex-dates">
+                <label>
                     <span>Дата начала:</span>
                     <input type="date" name="datestart">
                 </label>
-                <label style="width: 100%; margin-left: 5px;">
+                <label>
                     <span>Дата окончания:</span>
                     <input type="date" name="dateend">
                 </label>
@@ -82,7 +82,7 @@
                         <span>9</span>
                     </label>
                 </div>
-                <p style="font-size: 12px; color: red;">Укажите веса чек-листов на странице созданного аудита!</p>
+                <p class="anno red">Укажите веса чек-листов на странице созданного аудита!</p>
             </div>
             <label>
                 <span>Корректирующий коэффициент:</span>
@@ -92,10 +92,10 @@
                     <option value="(2)0.90">(2) 0.90</option>
                     <option value="0.80">0.80</option>
                 </select>
-                <p style="font-size: 11px;">1.00 — у обществ Группы ОСК отсутствуют претензии к поставщику по срокам и качеству</p>
-                <p style="font-size: 11px;">(1) 0.90 — у обществ Группы ОСК имеются претензии к поставщику по срокам и качеству</p>
-                <p style="font-size: 11px;">(2) 0.90 — до 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
-                <p style="font-size: 11px;">0.80 — свыше 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
+                <p class="anno">1.00 — у обществ Группы ОСК отсутствуют претензии к поставщику по срокам и качеству</p>
+                <p class="anno">(1) 0.90 — у обществ Группы ОСК имеются претензии к поставщику по срокам и качеству</p>
+                <p class="anno">(2) 0.90 — до 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
+                <p class="anno">0.80 — свыше 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
             </label>
             <button>Создать</button>
         </form>

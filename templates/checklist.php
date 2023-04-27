@@ -15,7 +15,7 @@
     </div>
 </div>
 
-<div class="top-placeholder" style="height: 50px;"></div>
+<div class="top-placeholder"></div>
 
 <style>
     * {
@@ -45,8 +45,8 @@
 </script>
 
 <div class="content">
-    <div class="container" style="max-width: 600px;">
-        <h1 style="font-size: 1.5em;"><a href="/audit?id=<?=$auditid?>" class="back">⇠</a> (<?=$checkid?>) <?=$criteria_titles[$checkid]?></h1>
+    <div class="container checklist-container">
+        <h1><a href="/audit?id=<?=$auditid?>" class="back">⇠</a> (<?=$checkid?>) <?=$criteria_titles[$checkid]?></h1>
         <div class="checklistform">
 
             <?php foreach ($checklists[$checkid]['categories'][0] as $i => $category): ?>
@@ -61,7 +61,7 @@
                             <form class="criteria">
                                 <p class="criteria__text"><?=$criterianum+1?>. <?=$checklists[$checkid]['criteria'][$criterianum]?></p>
                                 <div class="criteria__marks" >
-                                    <div style="display: flex;">
+                                    <div class="criteria__marks-flex">
 
                                         <?php if ($checkid !== 2 or in_array(0, $checklists[2]['custommarks'][$criterianum])): ?>
 
@@ -100,7 +100,7 @@
 
                                         <?php endif; ?>
                                     </div>
-                                    <div style="display: flex;">
+                                    <div class="criteria__marks-flex">
                                         <label class="criteria__mark">
                                             <input type="radio" name="mark" data-criteria="<?=$criterianum?>" value="-2" hidden <?=$marks[$checkid][$criterianum] === -2 ? 'checked' : ''?>>
                                             <span>Не применим</span>

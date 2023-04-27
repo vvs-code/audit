@@ -11,23 +11,10 @@
     </div>
 </div>
 
-<style>
-
-    .top__title {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        white-space: nowrap;
-    }
-
-</style>
-
-<div class="top-placeholder" style="height: 50px;"></div>
+<div class="top-placeholder"></div>
 
 <div class="content">
-    <div class="container" style="max-width: 500px;">
+    <div class="container in-app-form">
         <h1><a href="/audit?id=<?=$auditid?>" class="back">⇠</a> Редактировать аудит</h1>
         <form action="/modules/editaudit" method="POST">
             <span class="error">
@@ -38,19 +25,19 @@
                 <span>Предприятие:</span>
                 <input type="text" name="title" value="<?=implode('&quot;', explode('"', $audit['title']))?>">
             </label>
-            <div style="display: flex; width: 100%;">
-                <label style="width: 100%; margin-right: 5px;">
+            <div class="in-app-form__flex-dates">
+                <label>
                     <span>Дата начала:</span>
                     <input type="date" name="datestart" value="<?=$audit['datestart']?>">
                 </label>
-                <label style="width: 100%; margin-left: 5px;">
+                <label>
                     <span>Дата окончания:</span>
                     <input type="date" name="dateend" value="<?=$audit['dateend']?>">
                 </label>
             </div>
             <label>
                 <span>Профиль предприятия:</span>
-                <select name="profile" disabled style="opacity: 0.4; pointer-events: none">
+                <select name="profile" class="inactive">
                     <option value="РИ" <?= ($audit['profile'] === 'РИ' ? 'selected' : '') ?>>Разработчик-изготовитель</option>
                     <option value="Р" <?= ($audit['profile'] === 'Р' ? 'selected' : '') ?>>Разработчик</option>
                     <option value="И" <?= ($audit['profile'] === 'И' ? 'selected' : '') ?>>Изготовитель</option>
@@ -58,7 +45,7 @@
                     <option value="Д" <?= ($audit['profile'] === 'Д' ? 'selected' : '') ?>>Дилер</option>
                     <option value="Др" <?= ($audit['profile'] === 'Др' ? 'selected' : '') ?>>Другое</option>
                 </select>
-                <p style="font-size: 11px;">Поменять профиль после создания аудита невозможно</p>
+                <p class="anno">Поменять профиль после создания аудита невозможно</p>
             </label>
             <label>
                 <span>Корректирующий коэффициент:</span>
@@ -68,10 +55,10 @@
                     <option value="(2)0.90" <?= ($audit['coeff'] === '(2)0.90' ? 'selected' : '') ?>>(2) 0.90</option>
                     <option value="0.80" <?= ($audit['coeff'] === '0.80' ? 'selected' : '') ?>>0.80</option>
                 </select>
-                <p style="font-size: 11px;">1.00 — у обществ Группы ОСК отсутствуют претензии к поставщику по срокам и качеству</p>
-                <p style="font-size: 11px;">(1) 0.90 — у обществ Группы ОСК имеются претензии к поставщику по срокам и качеству</p>
-                <p style="font-size: 11px;">(2) 0.90 — до 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
-                <p style="font-size: 11px;">0.80 — свыше 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
+                <p class="anno">1.00 — у обществ Группы ОСК отсутствуют претензии к поставщику по срокам и качеству</p>
+                <p class="anno">(1) 0.90 — у обществ Группы ОСК имеются претензии к поставщику по срокам и качеству</p>
+                <p class="anno">(2) 0.90 — до 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
+                <p class="anno">0.80 — свыше 3 рекламаций от обществ Группы ОСК в течение предыдущих 12 месяцев</p>
             </label>
             <button>Сохранить</button>
         </form>
