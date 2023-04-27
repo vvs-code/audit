@@ -11,7 +11,7 @@
 
 <div class="top">
     <div class="container">
-        <div class="top__title"><a href="/" class="back">Аудиты</a>&nbsp;⇢ Аккаунт аудитора</div>
+        <div class="top__title"><span><a href="/" class="back">Аудиты</a> ⇢ Аккаунт аудитора</span></div>
     </div>
 </div>
 

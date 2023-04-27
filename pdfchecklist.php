@@ -131,18 +131,23 @@ HTML;
 
     $auditorscount = 0;
 
+    $auditors = '';
+
     foreach ($participants[$checklistnum] as $participant) {
         $user = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM users WHERE id = '.+$participant), MYSQLI_ASSOC);
         if (isset($user[0]) and (in_array($participant, $audit['users']) or $participant === +$audit['admin'])) {
             $user = $user[0];
             $name = $user['surname'] . ' ' . $user['name'] . ' ' . $user['fathername'];
+            $position = $user['position'];
             $auditors .= <<<ENDHTML
              <tr>
                 <td>$name</td>
+                <td>$position</td>
                 <td></td>
                 <td></td>
                 <td style="border: none;"></td>
                 <td>&nbsp;</td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -152,13 +157,15 @@ ENDHTML;
     }
 
     if ($auditorscount < 2) {
-        $auditors = str_repeat(<<<ENDHTML
+        $auditors .= str_repeat(<<<ENDHTML
              <tr>
+                <td>&nbsp;</td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td style="border: none;"></td>
                 <td>&nbsp;</td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -261,20 +268,24 @@ ENDHTML
         </table>
         <table style="width: 100%; white-space: break-spaces; border-collapse: collapse">
             <tr>
-                <td style="border: none; width: 31%;">Аудиторы:</td>
-                <td style="border: none; width: 9%;"></td>
-                <td style="border: none; width: 9%;"></td>
+                <td style="border: none; width: 18%;">Аудиторы:</td>
+                <td style="border: none; width: 15%;"></td>
+                <td style="border: none; width: 8%;"></td>
+                <td style="border: none; width: 8%;"></td>
                 <td style="border: none; width: 2%;"></td>
-                <td style="border: none; width: 31%;">Представители предпрятия:</td>
-                <td style="border: none; width: 9%;"></td>
-                <td style="border: none; width: 9%;"></td>
+                <td style="border: none; width: 18%;">Представители предпрятия:</td>
+                <td style="border: none; width: 15%;"></td>
+                <td style="border: none; width: 8%;"></td>
+                <td style="border: none; width: 8%;"></td>
             </tr>
             <tr>
                 <td>ФИО</td>
+                <td>Должность</td>
                 <td>Подпись</td>
                 <td>Дата</td>
                 <td style="border: none;"></td>
                 <td>ФИО</td>
+                <td>Должность</td>
                 <td>Подпись</td>
                 <td>Дата</td>
             </tr>

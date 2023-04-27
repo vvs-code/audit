@@ -17,6 +17,7 @@
     $mysurname = $_SESSION['user']['surname'];
     $myname = $_SESSION['user']['name'];
     $myfathername = $_SESSION['user']['fathername'];
+    $myposition = $_SESSION['user']['position'];
 
     $connection = get_connection();
     $audit = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM audits WHERE id = "'.$auditid.'"'), MYSQLI_ASSOC);
@@ -59,6 +60,7 @@
             'myid' => $myid,
             'mysurname' => $mysurname,
             'myname' => $myname,
-            'myfathername' => $myfathername
+            'myfathername' => $myfathername,
+            'myposition' => $myposition
         ]
     ]));

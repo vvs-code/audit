@@ -77,41 +77,42 @@
 ENDHTML;
 
     for ($checklistnum = 0; $checklistnum <= 9; $checklistnum++): if ($audit['checklists'][$checklistnum]):
-    $osklogo = $_SERVER['DOCUMENT_ROOT'].'/styles/osk.png';
-    $lightcolor = $checklist_color[$checklistnum][0];
-    $darkcolor = $checklist_color[$checklistnum][1];
 
-    if ($audit['datestart'] === $audit['dateend']) {
-        $date = 'Дата аудита: '.format_date($audit['datestart']);
-    } else {
-        $date = 'Даты аудита: '.format_date_range($audit['datestart'], $audit['dateend']);
-    }
+        $osklogo = $_SERVER['DOCUMENT_ROOT'].'/styles/osk.png';
+        $lightcolor = $checklist_color[$checklistnum][0];
+        $darkcolor = $checklist_color[$checklistnum][1];
 
-    $categories = '';
-    $marks = json_decode($audit['marks']);
-    $resmark = 0;
+        if ($audit['datestart'] === $audit['dateend']) {
+            $date = 'Дата аудита: '.format_date($audit['datestart']);
+        } else {
+            $date = 'Даты аудита: '.format_date_range($audit['datestart'], $audit['dateend']);
+        }
 
-    foreach ($checklists[$checklistnum]['categories'][0] as $i => $category) {
-        $categories .= <<<HTML
-            <tr style="background-color: $lightcolor;">
-                <td></td>
-                <td colspan="6">$category</td>
-            </tr>
+        $categories = '';
+        $marks = json_decode($audit['marks']);
+        $resmark = 0;
+
+        foreach ($checklists[$checklistnum]['categories'][0] as $i => $category) {
+            $categories .= <<<HTML
+                <tr style="background-color: $lightcolor;">
+                    <td></td>
+                    <td colspan="6">$category</td>
+                </tr>
 HTML;
 
-        foreach ($checklists[$checklistnum]['categories'][1][$i] as $criteria) {
-            $thismark = $marks[$checklistnum][$criteria];
-            $num = $criteria + 1;
-            $title = $checklists[$checklistnum]['criteria'][$criteria];
-            $standard = $checklists[$checklistnum]['standard'][$criteria];
-            $w = $checklists[$checklistnum]['weights'][$criteria];
-            $weight = $thismark === -2 ? '—' : $w;
-            $mark = str_replace('.', ',', (string)($thismark === -2 ? '—' : ($thismark === -1 ? '' : $thismark)));
-            $res = str_replace('.', ',', (string)($thismark === -2 ? '—' : ($thismark === -1 ? '' : $thismark * $w)));
-            $resmark += $thismark === -2 ? 0 : ($thismark === -1 ? 0 : $thismark * $w);
-            $standardstyle = $checklistnum === 2 ? 'style="font-size: 10px"' : '';
-            $comment = htmlspecialchars($audit['comments'][$checklistnum][$criteria]);
-            $categories .= <<<HTML
+            foreach ($checklists[$checklistnum]['categories'][1][$i] as $criteria) {
+                $thismark = $marks[$checklistnum][$criteria];
+                $num = $criteria + 1;
+                $title = $checklists[$checklistnum]['criteria'][$criteria];
+                $standard = $checklists[$checklistnum]['standard'][$criteria];
+                $w = $checklists[$checklistnum]['weights'][$criteria];
+                $weight = $thismark === -2 ? '—' : $w;
+                $mark = str_replace('.', ',', (string)($thismark === -2 ? '—' : ($thismark === -1 ? '' : $thismark)));
+                $res = str_replace('.', ',', (string)($thismark === -2 ? '—' : ($thismark === -1 ? '' : $thismark * $w)));
+                $resmark += $thismark === -2 ? 0 : ($thismark === -1 ? 0 : $thismark * $w);
+                $standardstyle = $checklistnum === 2 ? 'style="font-size: 10px"' : '';
+                $comment = htmlspecialchars($audit['comments'][$checklistnum][$criteria]);
+                $categories .= <<<HTML
             <tr style="line-height: 1em;">
                 <td style="text-align: center;">$num</td>
                 <td>$title</td>
@@ -122,26 +123,27 @@ HTML;
                 <td>$comment</td>
             </tr>
 HTML;
+            }
         }
-    }
 
 
-    $maxmarksum = 0;
-    foreach ($checklists[$checklistnum]['weights'] as $i => $weight) {
-        if ($marks[$checklistnum][$i] !== -2) {
-            $maxmarksum += $weight;
+        $maxmarksum = 0;
+        foreach ($checklists[$checklistnum]['weights'] as $i => $weight) {
+            if ($marks[$checklistnum][$i] !== -2) {
+                $maxmarksum += $weight;
+            }
         }
-    }
-    $Qi = in_array(-1, $marks[$checklistnum]) ? '' : number_format((float)$resmark / $maxmarksum * 100, 2, ',', ' ').'%';
-    $resmark = in_array(-1, $marks[$checklistnum]) ? '' : $resmark;
-    $checklistweight = $audit['weights'][$checklistnum];
-    $coeff = $coeff_to_num[$audit['coeff']];
-    $wmark = in_array(-1, $marks[$checklistnum]) ? '' : round($checklistweight * ($resmark / $maxmarksum * 100), 3);
-    $final = in_array(-1, $marks[$checklistnum]) ? '' : round($wmark * $coeff, 2);
 
-    if ($checklistnum === 2) {
-        $anno = '<p style="text-align: right; padding-bottom: 2mm; margin-top: -3mm;"><sup style="font-size: 10px">1</sup> Итоговая оценка по критерию (оценка аудитора &times; коэффициент значимости критерия)</p>';
-        $header = <<<HTML
+        $Qi = in_array(-1, $marks[$checklistnum]) ? '' : number_format((float)$resmark / $maxmarksum * 100, 2, ',', ' ').'%';
+        $resmark = in_array(-1, $marks[$checklistnum]) ? '' : $resmark;
+        $checklistweight = $audit['weights'][$checklistnum];
+        $coeff = $coeff_to_num[$audit['coeff']];
+        $wmark = in_array(-1, $marks[$checklistnum]) ? '' : round($checklistweight * ($resmark / $maxmarksum * 100), 3);
+        $final = in_array(-1, $marks[$checklistnum]) ? '' : round($wmark * $coeff, 2);
+
+        if ($checklistnum === 2) {
+            $anno = '<p style="text-align: right; padding-bottom: 2mm; margin-top: -3mm;"><sup style="font-size: 10px">1</sup> Итоговая оценка по критерию (оценка аудитора &times; коэффициент значимости критерия)</p>';
+            $header = <<<HTML
             <tr style="text-align: center; background-color: $lightcolor;">
                 <td style="width: 3%">№ п/п</td>
                 <td style="width: 23%">Критерий</td>
@@ -167,33 +169,38 @@ HTML;
 HTML;
     }
 
-    $participants = json_decode($audit['participants']);
+        $participants = json_decode($audit['participants']);
 
         $auditorscount = 0;
+        $auditors = '';
 
-    foreach ($participants[$checklistnum] as $participant) {
-        $user = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM users WHERE id = '.+$participant), MYSQLI_ASSOC);
-        if (isset($user[0]) and (in_array($participant, $audit['users']) or $participant === +$audit['admin'])) {
-            $user = $user[0];
-            $name = $user['surname'] . ' ' . $user['name'] . ' ' . $user['fathername'];
-            $auditors .= <<<ENDHTML
+        foreach ($participants[$checklistnum] as $participant) {
+            $user = mysqli_fetch_all(mysqli_query($connection, 'SELECT * FROM users WHERE id = '.+$participant), MYSQLI_ASSOC);
+            if (isset($user[0]) and (in_array($participant, $audit['users']) or $participant === +$audit['admin'])) {
+                $user = $user[0];
+                $name = $user['surname'] . ' ' . $user['name'] . ' ' . $user['fathername'];
+                $position = $user['position'];
+                $auditors .= <<<ENDHTML
              <tr>
                 <td>$name</td>
+                <td>$position</td>
                 <td></td>
                 <td></td>
                 <td style="border: none;"></td>
                 <td>&nbsp;</td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
 ENDHTML;
-            $auditorscount++;
+                $auditorscount++;
+            }
         }
-    }
 
-    if ($auditorscount < 2) {
-        $auditors = str_repeat(<<<ENDHTML
+        if ($auditorscount < 2) {
+            $auditors .= str_repeat(<<<ENDHTML
              <tr>
+                <td>&nbsp;</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -201,19 +208,20 @@ ENDHTML;
                 <td>&nbsp;</td>
                 <td></td>
                 <td></td>
+                <td></td>
             </tr>
 ENDHTML
-            , 2 - $auditorscount);
-    }
+                , 2 - $auditorscount);
+        }
 
-    $resmark_text = $resmark === '' ? '' : number_format((float)$resmark, 2, ',', ' ');
-    $checklistweight_text = $checklistweight === '' ? '' : number_format((float)$checklistweight, 2, ',', ' ');
-    $wmark_text = $wmark === '' ? '' : number_format((float)$wmark, 2, ',', ' ');
-    $coeff_text = $coeff === '' ? '' : number_format((float)$coeff, 2, ',', ' ');
-    $final_text = $final === '' ? '' : number_format((float)$final, 2, ',', ' ');
+        $resmark_text = $resmark === '' ? '' : number_format((float)$resmark, 2, ',', ' ');
+        $checklistweight_text = $checklistweight === '' ? '' : number_format((float)$checklistweight, 2, ',', ' ');
+        $wmark_text = $wmark === '' ? '' : number_format((float)$wmark, 2, ',', ' ');
+        $coeff_text = $coeff === '' ? '' : number_format((float)$coeff, 2, ',', ' ');
+        $final_text = $final === '' ? '' : number_format((float)$final, 2, ',', ' ');
 
-    $goz = ($checklistnum !== 2 ? '* для организаций, выполняющих работы в обеспечение ГОЗ' : '');
-    $tables[] = <<<ENDHTML
+        $goz = ($checklistnum !== 2 ? '* для организаций, выполняющих работы в обеспечение ГОЗ' : '');
+        $tables[] = <<<ENDHTML
 
         <div style="padding-bottom: 5mm">
             <span style="font-size: 4.5mm; padding-top: 5mm; padding-bottom: 4.5mm; display: inline-block; padding-right: 3mm;">АО «ОСК»</span>
@@ -268,20 +276,24 @@ ENDHTML
         </table>
         <table style="width: 100%; white-space: break-spaces; border-collapse: collapse">
             <tr>
-                <td style="border: none; width: 31%;">Аудиторы:</td>
-                <td style="border: none; width: 9%;"></td>
-                <td style="border: none; width: 9%;"></td>
+                <td style="border: none; width: 18%;">Аудиторы:</td>
+                <td style="border: none; width: 15%;"></td>
+                <td style="border: none; width: 8%;"></td>
+                <td style="border: none; width: 8%;"></td>
                 <td style="border: none; width: 2%;"></td>
-                <td style="border: none; width: 31%;">Представители предпрятия:</td>
-                <td style="border: none; width: 9%;"></td>
-                <td style="border: none; width: 9%;"></td>
+                <td style="border: none; width: 18%;">Представители предпрятия:</td>
+                <td style="border: none; width: 15%;"></td>
+                <td style="border: none; width: 8%;"></td>
+                <td style="border: none; width: 8%;"></td>
             </tr>
             <tr>
                 <td>ФИО</td>
+                <td>Должность</td>
                 <td>Подпись</td>
                 <td>Дата</td>
                 <td style="border: none;"></td>
                 <td>ФИО</td>
+                <td>Должность</td>
                 <td>Подпись</td>
                 <td>Дата</td>
             </tr>
@@ -292,7 +304,8 @@ ENDHTML
 ENDHTML;
 
 
-    endif; endfor;
+        endif;
+    endfor;
 
     $html .= implode('<div style="page-break-after: always;"></div>', $tables);
     $html .= <<<ENDHTML

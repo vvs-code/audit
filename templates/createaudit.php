@@ -6,7 +6,7 @@
 
 <div class="top">
     <div class="container">
-        <div class="top__title"><a href="/" class="back">Аудиты</a> ⇢ Создать аудит</div>
+        <div class="top__title"><span><a href="/" class="back">Аудиты</a> ⇢ Создать аудит</span></div>
     </div>
 </div>
 
