@@ -7,10 +7,11 @@
     }
 
     $user = $_SESSION['user'];
-    $myid = +$_SESSION['user']['id'];
-    $surname = $_SESSION['user']['surname'];
-    $nameletter = preg_split('//u', $_SESSION['user']['name'], -1, PREG_SPLIT_NO_EMPTY)[0];
-    $fathernameletter = preg_split('//u', $_SESSION['user']['fathername'], -1, PREG_SPLIT_NO_EMPTY)[0];
+    $myid = +$user['id'];
+    $email = $user['email'];
+    $surname = $user['surname'];
+    $nameletter = preg_split('//u', $user['name'], -1, PREG_SPLIT_NO_EMPTY)[0];
+    $fathernameletter = preg_split('//u', $user['fathername'], -1, PREG_SPLIT_NO_EMPTY)[0];
 
     $errormessage_data = '';
 
@@ -19,6 +20,10 @@
 
         if ($error === 'empty') {
             $errormessage_data = 'Не все поля заполнены';
+        } elseif ($error === 'exist') {
+            $errormessage_data = 'Аккаунт с таким email уже существует';
+        } elseif ($error === 'email') {
+            $errormessage_data = 'Введите корректный email';
         }
     }
 
@@ -47,6 +52,7 @@
             'errormessage_password' => $errormessage_password,
             'user' => $user,
             'myid' => $myid,
+            'email' => $email,
             'surname' => $surname,
             'nameletter' => $nameletter,
             'fathernameletter' => $fathernameletter

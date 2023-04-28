@@ -4,6 +4,7 @@
     /** @var string $errormessage_password */
     /** @var array $user */
     /** @var int $myid */
+    /** @var string $email */
     /** @var string $surname */
     /** @var string $nameletter */
     /** @var string $fathernameletter */
@@ -43,6 +44,10 @@
             <label>
                 <span>Должность:</span>
                 <input type="text" name="position" value="<?=safe_attribute($user['position'])?>">
+            </label>
+            <label>
+                <span>Email:</span>
+                <input type="text" name="email" value="<?=safe_attribute($user['email'])?>">
             </label>
             <button>Сохранить</button>
         </form>

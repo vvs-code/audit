@@ -29,7 +29,7 @@
     $audit['admin'] = +$audit['admin'];
     $users = json_decode($audit['users']);
 
-    if (!in_array($myid, $users) and $myid !== $audit['admin']) {
+    if ($myid !== $audit['admin']) {
         leave();
     }
 

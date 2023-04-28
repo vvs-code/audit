@@ -31,6 +31,11 @@
     $marks = json_decode($audit['marks']);
     $audit['started'] = (array)json_decode($audit['started']);
     $audit['comments'] = (array)json_decode($audit['comments']);
+    $audit['finished'] = +$audit['finished'];
+
+    if ($audit['finished']) {
+        leave();
+    }
 
     if (!$audit['started'][$checkid]) {
         $audit['started'][$checkid] = 1;
