@@ -9,6 +9,6 @@
     print(include_template([
         'page' => 'login.php',
         'title' => 'Аудиты',
-        'scripts' => ['/scripts/login.js'],
+        'scripts' => [],
         'data' => []
     ]));

@@ -321,7 +321,7 @@ ENDHTML;
 
     $output = $dompdf->output();
     file_put_contents($_SERVER['DOCUMENT_ROOT'].'/pdf/'.$name.'-check-'.$checklistnum.'.pdf', $output);
-    header('location: '.'/pdf/'.$name.'-check'.$checklistnum.'.pdf');
+    header('location: '.'/pdf/'.$name.'-check-'.$checklistnum.'.pdf');
 
 
 

@@ -4,7 +4,7 @@
         <h1>Войти в аккаунт аудитора</h1>
         <form action="/modules/login" method="POST">
             <span class="error">
-                <?= isset($_GET['error']) ? print('Ошибка в email или пароле') : '' ?>
+                <?= isset($_GET['error']) ? 'Ошибка в email или пароле' : '' ?>
             </span>
             <label>
                 <span>Электронная почта:</span>
