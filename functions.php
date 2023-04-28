@@ -114,14 +114,19 @@
      * @param $length
      * @return string
      */
-    function generate_random_code ($length = 6) {
-        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    function generate_random_code ($length = 6, $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') {
         $numChars = strlen($chars);
         $string = '';
         for ($i = 0; $i < $length; $i++) {
             $string .= substr($chars, rand(1, $numChars) - 1, 1);
         }
         return $string;
+    }
+
+    function transliterate ($str) {
+        $from = ['а','б','в','г','д','е','ё','ж','з','и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я','А','Б','В','Г','Д','Е','Ё','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я'];
+        $to = ['a','b','v','g','d','e','yo','zh','z','i','y','k','l','m','n','o','p','r','s','t','u','f','kh','c','ch','sh','sch','','y','','e','yu','ya','A','B','V','G','D','E','Yo','Zh','Z','I','Y','K','L','M','N','O','P','R','S','T','U','F','Kh','C','Ch','Sh','Sch','','Y','','E','YU','YA'];
+        return str_replace($from, $to, $str);
     }
 
     /**

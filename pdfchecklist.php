@@ -317,9 +317,11 @@ ENDHTML;
 
     $name = implode('_', explode(' ', trim($name)));
 
+    $name = 'Audit-'.str_pad((string)$audit['id'], 3, '0', STR_PAD_LEFT).'_'.transliterate($name);
+
     $output = $dompdf->output();
-    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/pdf/'.$checklistnum.'-'.$auditcode.'.pdf', $output);
-    header('location: '.'/pdf/'.$checklistnum.'-'.$auditcode.'.pdf');
+    file_put_contents($_SERVER['DOCUMENT_ROOT'].'/pdf/'.$name.'-check-'.$checklistnum.'.pdf', $output);
+    header('location: '.'/pdf/'.$name.'-check'.$checklistnum.'.pdf');
 
 
 

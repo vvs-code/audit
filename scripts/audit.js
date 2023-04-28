@@ -3,7 +3,7 @@
 let weightSelects = document.querySelectorAll('.checklist__weight');
 
 for (let i = 0, max = weightSelects.length; i < max; i++) {
-    weightSelects[i].addEventListener('change', evt => {
+    weightSelects[i].addEventListener('change', () => {
         weightSelects[i].classList.add('pending');
 
         ajax('/modules/weight', {
